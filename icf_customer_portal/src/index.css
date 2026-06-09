@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Base resets — written as plain CSS (no @apply) to avoid any
+ * PostCSS/Tailwind layer-ordering issues with the body background.
+ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Light-mode body defaults — explicit rgb values, not @apply */
+body {
+  background-color: rgb(249 250 251); /* gray-50  */
+  color: rgb(17 24 39);               /* gray-900 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Dark-mode body override — plain .dark selector, never a media query */
+.dark body {
+  background-color: rgb(3 7 18);    /* near-black */
+  color: rgb(243 244 246);          /* gray-100   */
+}
+
+:focus-visible {
+  outline: 2px solid rgb(37 99 235);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background-color: rgb(209 213 219);
+  border-radius: 9999px;
+}
+.dark ::-webkit-scrollbar-thumb { background-color: rgb(75 85 99); }
+
+/* ── Shared component classes ─────────────────────────────────────────────────
+ * These use @apply with dark: variants — this works correctly in
+ * @layer components (only @layer base had the broken behaviour).
+ * ─────────────────────────────────────────────────────────────────────────── */
+@layer components {
+
+  /* Structural */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+
+  .card {
+    @apply bg-white dark:bg-gray-900
+           rounded-xl border border-gray-100 dark:border-gray-700
+           shadow-card;
+  }
+
+  /* Table primitives */
+  .th {
+    @apply px-4 py-3 text-left text-xs font-semibold
+           text-gray-500 dark:text-gray-400
+           uppercase tracking-wider;
+  }
+
+  .td {
+    @apply px-4 py-3 text-sm
+           text-gray-700 dark:text-gray-300
+           border-t border-gray-50 dark:border-gray-800;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
+           transition-all duration-150
+           focus-visible:ring-2 focus-visible:ring-offset-1
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-600 text-white
+           hover:bg-brand-700 active:bg-brand-800
+           focus-visible:ring-brand-500;
+  }
+
+  .btn-ghost {
+    @apply btn text-gray-600 dark:text-gray-300
+           hover:bg-gray-100 dark:hover:bg-gray-800
+           hover:text-gray-800 dark:hover:text-gray-100
+           active:bg-gray-200 dark:active:bg-gray-700;
+  }
+
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500;
+  }
+
+  /* Form controls */
+  .input {
+    @apply w-full px-3 py-2 rounded-lg text-sm
+           border border-gray-300 dark:border-gray-600
+           bg-white dark:bg-gray-800
+           text-gray-900 dark:text-gray-100
+           placeholder:text-gray-400 dark:placeholder:text-gray-500
+           focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent
+           transition-colors;
+  }
+
+  .select {
+    @apply input appearance-none cursor-pointer;
+  }
+
+  /* Misc */
+  .skeleton {
+    @apply animate-pulse bg-gray-200 dark:bg-gray-700 rounded;
+  }
+
+  .divider {
+    @apply border-t border-gray-100 dark:border-gray-800;
+  }
+}
